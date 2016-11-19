@@ -1,12 +1,5 @@
 const TwitterPackage = require('twitter');
 const credentials = require('./credentials');
-	// To use, supply a file credentials.js with format: 
-	// module.exports = {
-	//    consumer_key: '***',
-	//    consumer_secret: '***',
-	//    access_token_key: '***',
-	//    access_token_secret: '***'
-	//  };
 const Twitter = new TwitterPackage(credentials);
 const Promise = require('bluebird');
 const readFile = Promise.promisify(require('fs').readFile);
@@ -72,7 +65,7 @@ const sendTweet = function() {
 				tweetsWaiting.push(tweet);
 				tweet = "";
 			}
-			
+
 			sendWithTwitter(tweet);
 
 			})
