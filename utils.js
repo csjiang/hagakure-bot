@@ -13,7 +13,7 @@ const sendWithTwitter = tweet => {
 		}, (error, tweet, response) => {
 
 			if (error) console.log("Error: " + error);
-			else console.log("Successfully sent tweet");
+			else console.log("Successfully sent tweet at " + new Date());
 		}); 
 	}
 };
@@ -40,11 +40,11 @@ const generateTweet = linesArray => {
 
 // splits up long tweets and returns an array of shortened lines in order
 const splitLongTweet = longTweet => {
-	const numTweets = Math.ceil(longTweet.length / 134);
+	const numTweets = Math.ceil(longTweet.length / 133);
 	let tweetsArray = []; 
 	for (let i = 1; i <= numTweets; i++) {
-		tweetsArray.push(longTweet.slice(0, 134) +  "(" + i + "/" + numTweets + ")");
-		longTweet = longTweet.slice(134);
+		tweetsArray.push(longTweet.slice(0, 133) +  "(" + i + "/" + numTweets + ")");
+		longTweet = longTweet.slice(133);
 	}
 	return tweetsArray;
 };

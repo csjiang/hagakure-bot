@@ -4,11 +4,14 @@
   "description": "node.js bot that tweets out excerpts from the Hagakure",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app"
   },
   "author": "Christine Jiang",
   "license": "MIT",
   "dependencies": {
-    "bluebird": "^3.4.6"
+    "bluebird": "^3.4.6",
+    "nodemon": "^1.11.0",
+    "twitter": "^1.4.0"
   }
 }

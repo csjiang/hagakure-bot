@@ -8,7 +8,14 @@
 
 Simple node.js twitter bot that retweets random lines from the Hagakure (Way of the Samurai) by Yamamoto Tsunetomo.
 
-1. `npm install` from the root directory
+###Dependencies: 
+1. twitter
+2. bluebird
+3. nodemon
+
+###The Way: 
+
+1. `npm install` from the root directory 
 2. download hagakure chapter .txt files from https://github.com/hollanddd/hagakure 
 3. supply a file credentials.js with format: 
     `module.exports = {
