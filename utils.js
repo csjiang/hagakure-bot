@@ -12,7 +12,7 @@ const sendWithTwitter = tweet => {
 			status: tweet
 		}, (error, tweet, response) => {
 
-			if (error) console.log("Error occurred: " + error);
+			if (error) console.log("Error occurred: ", response);
 			else console.log("Successfully sent tweet at " + new Date());
 		}); 
 	}

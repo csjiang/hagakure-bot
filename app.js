@@ -10,7 +10,7 @@ const splitLongTweet = utils.splitLongTweet;
 
 let tweetsWaiting = [];
 
-const sendTweet = (/*succeed, fail*/) => {
+const sendTweet = () => {
 
 	// tweets from pipeline if it exists
 	if (tweetsWaiting.length > 0) {
@@ -35,22 +35,20 @@ const sendTweet = (/*succeed, fail*/) => {
 				return sendTweet();
 			} else {
 				sendWithTwitter(tweet);
-				//succeed("success");
 			}
 		})
 		.catch((err) => {
 			console.log("Error reading file", err);
-			//fail(err);
 		});
 	}
 };
 
-// sends one tweet to start, and subsequently tweets once every 5 minutes
-sendTweet();
-setInterval(() => {
-  sendTweet();
-}, 10 * 60 * 1000); 
+const scheduleTweets = tweetRate => {
+	setInterval(() => {
+	  sendTweet();
+	}, tweetRate * 60 * 1000);
+};
 
-// exports.handler = (event, context) => {
-// 	sendTweet(context.succeed, context.fail);
-// };
+// sends one tweet to start, and subsequently tweets once per 10 minutes while the process is running
+sendTweet();
+scheduleTweets(10);
