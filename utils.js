@@ -12,7 +12,7 @@ const sendWithTwitter = tweet => {
 			status: tweet
 		}, (error, tweet, response) => {
 
-			if (error) console.log("Error: " + error);
+			if (error) console.log("Error occurred: " + error);
 			else console.log("Successfully sent tweet at " + new Date());
 		}); 
 	}
@@ -20,7 +20,7 @@ const sendWithTwitter = tweet => {
 
 // selects a chapter at random (12 chapters total) 
 const pickChapter = () => {
-	const chapterNums = [...Array(13).keys()].slice(1);
+	let chapterNums = [...Array(13).keys()].slice(1);
 	chapterNums.splice(4, 1); // removes the fifth, textless chapter
 	return chapterNums[Math.floor(Math.random() * chapterNums.length)];
 };

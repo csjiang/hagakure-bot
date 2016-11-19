@@ -10,12 +10,12 @@ const splitLongTweet = utils.splitLongTweet;
 
 let tweetsWaiting = [];
 
-const sendTweet = () => {
+const sendTweet = (/*succeed, fail*/) => {
 
 	// tweets from pipeline if it exists
 	if (tweetsWaiting.length > 0) {
 		const theTweet = tweetsWaiting.shift();
-		sendWithTwitter(theTweet);
+		return sendWithTwitter(theTweet);
 
 	} else {
 		const chapter = pickChapter();
@@ -33,10 +33,14 @@ const sendTweet = () => {
 			if (tweet.length > 140) {
 				tweetsWaiting = tweetsWaiting.concat(splitLongTweet(tweet));
 				return sendTweet();
-			} else sendWithTwitter(tweet);
+			} else {
+				sendWithTwitter(tweet);
+				//succeed("success");
+			}
 		})
 		.catch((err) => {
 			console.log("Error reading file", err);
+			//fail(err);
 		});
 	}
 };
@@ -45,4 +49,8 @@ const sendTweet = () => {
 sendTweet();
 setInterval(() => {
   sendTweet();
-}, 5 * 60 * 1000); 
+}, 10 * 60 * 1000); 
+
+// exports.handler = (event, context) => {
+// 	sendTweet(context.succeed, context.fail);
+// };
