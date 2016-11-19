@@ -10,7 +10,7 @@ const splitLongTweet = utils.splitLongTweet;
 
 let tweetsWaiting = [];
 
-const sendTweet = function() {
+const sendTweet = () => {
 
 	// tweets from pipeline if it exists
 	if (tweetsWaiting.length > 0) {
@@ -23,21 +23,19 @@ const sendTweet = function() {
 		let hagakureLines, tweet; 
 
 		// after reading a chapter, format the text and split into sentences		
-		readingHagakure.then(function(contents) {
+		readingHagakure.then((contents) => {
 			hagakureLines = parseText(contents.toString());
 		})
-		.then(function() {
+		.then(() => {
 
 			tweet = generateTweet(hagakureLines);
 
 			if (tweet.length > 140) {
 				tweetsWaiting = tweetsWaiting.concat(splitLongTweet(tweet));
 				return sendTweet();
-			} else {
-				sendWithTwitter(tweet);
-			}
+			} else sendWithTwitter(tweet);
 		})
-		.catch(function(err) {
+		.catch((err) => {
 			console.log("Error reading file", err);
 		});
 	}
@@ -45,6 +43,6 @@ const sendTweet = function() {
 
 // sends one tweet to start, and subsequently tweets once every 5 minutes
 sendTweet();
-setInterval(function() {
+setInterval(() => {
   sendTweet();
 }, 5 * 60 * 1000); 
