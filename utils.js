@@ -27,8 +27,8 @@ const pickChapter = () => {
 
 // splits text into sentences and resolves deviant spacing
 const parseText = text => {
-	const sentenceEnd = /[\.\!\?](?: +|" )/g;
-	return text.replace(/(?:\n|\f)+/g, ' ').replace(/- /g, '').replace(sentenceEnd, '$&<>').split('<>');
+	const sentenceEnd = /[^\.!\?]+[\.!\?]+/g;
+	return text.replace(/(?:\n|\f)+/g, ' ').replace(/- /g, '').match(sentenceEnd);
 };
 
 // picks a line at random; disqualifies very short lines

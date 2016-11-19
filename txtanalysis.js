@@ -4,6 +4,8 @@ const joinTextFiles = require('./txtanalysis-utils').joinTextFiles;
 const parseText = require('./txtanalysis-utils').parseText;
 const removeFile = require('./txtanalysis-utils').removeFile;
 
+// NB: This file runs the final analysis. Please see txtanalysis-utils.js for a breakdown of how this is done, and to further customize parsing & analysis parameters.
+
 const analyzeText = (chapterPromises, filename, tooShort, tweetRate) => {
 	Promise.all(chapterPromises).then((readChapters) => {
 		joinTextFiles(readChapters, filename);
@@ -18,8 +20,6 @@ const analyzeText = (chapterPromises, filename, tooShort, tweetRate) => {
 		console.log("Error analyzing file " + filename);
 	});
 };
-
-// NB: This file runs the final analysis. Please see txtanalysis-utils.js for a breakdown of how this is done, and to further customize parsing & analysis parameters.
 
 // First, the createChapterPromises utility function reads in text files from the directory given in the first arg, filtered for files containing the keyword given in the second arg. 
 	// const chapters = createChapterPromises('./path/to/textfiles', 'keywordToFilterBy')

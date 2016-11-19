@@ -43,26 +43,38 @@ const joinTextFiles = (chapterBuffers, fileToWrite) => {
 };
 
 // filters an array of strings for length
-const removeShortLines = (linesArray, tooShort) => {
-	return linesArray.filter((line) => {
-		return line.length > tooShort;
+const removeShort = (tweetsArray, tooShort) => {
+	return tweetsArray.filter((tweet) => {
+		return tweet.length > tooShort;
 	});
 };
 
-const getAvgLength = linesArray => {
-	return (linesArray.map((line) => {
-		return line.length;
-	}).reduce((line1, line2) => {
-		return line1 + line2; 
-	}) / linesArray.length);
+const getLongestTweet = tweetsArray => {
+	return tweetsArray.reduce((tweet1, tweet2) => {
+		return tweet1.length > tweet2.length ? tweet1 : tweet2;
+	});
+};
+
+const getShortestTweet = tweetsArray => {
+	return tweetsArray.reduce((tweet1, tweet2) => {
+		return tweet1.length < tweet2.length ? tweet1 : tweet2;
+	});
+};
+
+const getAvgLength = tweetsArray => {
+	return (tweetsArray.map((tweet) => {
+		return tweet.length;
+	}).reduce((tweet1, tweet2) => {
+		return tweet1 + tweet2; 
+	}) / tweetsArray.length);
 };
 
 // parses and analyzes text
 const parseText = (fileToParse, tooShort, tweetRate) => {
 	readFile(fileToParse).then((fullText) => {
-		const linesArray = cleanAndSplit(fullText.toString());
-		const noShortLines = removeShortLines(linesArray, tooShort);
-		textStats(linesArray, noShortLines, tweetRate);
+		const tweetsArray = cleanAndSplit(fullText.toString());
+		const noShortTweets = removeShort(tweetsArray, tooShort);
+		tweetStats(tweetsArray, noShortTweets, tweetRate);
 	})
 	.catch((err) => {
 		console.error('Error reading or parsing file ' + fileToParse);
@@ -70,12 +82,14 @@ const parseText = (fileToParse, tooShort, tweetRate) => {
 };
 
 // calculates and prints some simple figures for the given text, to aid in selecting tweet frequency and which lines to exclude 
-const textStats = (lines, noShortLines, tweetRate) => {
-	console.log('First 30 tweets: ' + lines.slice(0, 30));
-	console.log('Total tweets: ' + lines.length);
-	console.log('Average tweets length: ' +  getAvgLength(lines).toFixed(1) + ' chars');
-	console.log('Total tweets (short lines removed): ' + noShortLines.length);
-	console.log('Days before running out of unique tweets, at a rate of one tweet every ' + tweetRate + ' minutes: ' + (lines.length / ((60 * 24) / tweetRate)).toFixed(1));
+const tweetStats = (tweetsArray, noShortTweets, tweetRate) => {
+	console.log('First 30 tweets: ' + tweetsArray.slice(0, 30));
+	console.log('Total tweets: ' + tweetsArray.length);
+	console.log('Longest tweet: ' + getLongestTweet(noShortTweets) + ' ' + getLongestTweet(noShortTweets).length);
+	console.log('Shortest tweet: ' + getShortestTweet(noShortTweets) + ' ' + getShortestTweet(noShortTweets).length);
+	console.log('Average tweets length: ' +  getAvgLength(tweetsArray).toFixed(1) + ' chars');
+	console.log('Total tweets (short lines removed): ' + noShortTweets.length);
+	console.log('Days before running out of unique tweets, at a rate of one tweet every ' + tweetRate + ' minutes: ' + (tweetsArray.length / ((60 * 24) / tweetRate)).toFixed(1));
 };
 
 // deletes the concatenated text file when done
