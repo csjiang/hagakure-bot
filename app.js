@@ -69,9 +69,10 @@ const sendTweet = function() {
 					tweetsWaiting.push(firstTweet);
 					tweet = tweet.slice(140);
 				}
-				return tweetsWaiting.push(tweet);
+				tweetsWaiting.push(tweet);
+				tweet = "";
 			}
-
+			
 			sendWithTwitter(tweet);
 
 			})
@@ -81,7 +82,8 @@ const sendTweet = function() {
 		}
 	};
 
+// sends initial tweet and tweets every 5 minutes
 sendTweet();
 setInterval(function() {
   sendTweet();
-}, 5 * 60 * 1000); // tweets every 5 minutes
+}, 5 * 60 * 1000); 
