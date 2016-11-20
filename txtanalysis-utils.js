@@ -69,12 +69,20 @@ const getAvgLength = tweetsArray => {
 	}) / tweetsArray.length);
 };
 
+const getTweets = (tweetsArray, num) => {
+	let output = '';
+	tweetsArray.slice(0, num).forEach((tweet, i) => {
+		output += (i + 1) + '.' + tweet + '\n';
+	});
+	return output;
+};
+
 // parses and analyzes text
-const parseText = (fileToParse, tooShort, tweetRate) => {
+const parseText = (fileToParse, tooShort, tweetRate, tweetsToShow) => {
 	readFile(fileToParse).then((fullText) => {
 		const tweetsArray = cleanAndSplit(fullText.toString());
 		const noShortTweets = removeShort(tweetsArray, tooShort);
-		tweetStats(tweetsArray, noShortTweets, tweetRate);
+		tweetStats(tweetsArray, noShortTweets, tweetRate, tweetsToShow);
 	})
 	.catch((err) => {
 		console.error('Error reading or parsing file ' + fileToParse);
@@ -82,8 +90,8 @@ const parseText = (fileToParse, tooShort, tweetRate) => {
 };
 
 // calculates and prints some simple figures for the given text, to aid in selecting tweet frequency and which lines to exclude 
-const tweetStats = (tweetsArray, noShortTweets, tweetRate) => {
-	console.log('First 30 tweets: ' + tweetsArray.slice(0, 30));
+const tweetStats = (tweetsArray, noShortTweets, tweetRate, tweetsToShow) => {
+	console.log('First 30 tweets: ' + getTweets(tweetsArray, tweetsToShow));
 	console.log('Total tweets: ' + tweetsArray.length);
 	console.log('Longest tweet: ' + getLongestTweet(noShortTweets) + ' ' + getLongestTweet(noShortTweets).length);
 	console.log('Shortest tweet: ' + getShortestTweet(noShortTweets) + ' ' + getShortestTweet(noShortTweets).length);

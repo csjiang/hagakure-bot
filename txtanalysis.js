@@ -6,12 +6,12 @@ const removeFile = require('./txtanalysis-utils').removeFile;
 
 // NB: This file runs the final analysis. Please see txtanalysis-utils.js for a breakdown of how this is done, and to further customize parsing & analysis parameters.
 
-const analyzeText = (chapterPromises, filename, tooShort, tweetRate) => {
+const analyzeText = (chapterPromises, filename, tooShort, tweetRate, tweetsToShow) => {
 	Promise.all(chapterPromises).then((readChapters) => {
 		joinTextFiles(readChapters, filename);
 	})
 	.then(() => {
-		parseText(filename, tooShort, tweetRate);
+		parseText(filename, tooShort, tweetRate, tweetsToShow);
 	})
 	.then(() => {
 		removeFile(filename);
@@ -34,4 +34,4 @@ const analyzeText = (chapterPromises, filename, tooShort, tweetRate) => {
 
 // example: 
 const chapters = createChapterPromises('./hagakure/', 'chapter');
-analyzeText(chapters, 'fulltext.txt', 10, 5);
+analyzeText(chapters, 'fulltext.txt', 10, 5, 30);
